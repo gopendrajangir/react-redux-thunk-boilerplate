@@ -1,0 +1,55 @@
+body {
+  background-color: #eee;
+}
+
+.app-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  .app-title {
+    text-align: center;
+    font-family: sans-serif;
+    color: #666;
+  }
+
+  .form {
+    padding: 10px;
+    border: 30px solid white;
+    padding-bottom: 40px;
+    
+    &-container-heading {
+      width: 350px;
+      font-family: sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    
+    .input-wrapper {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      
+      .input-component-heading {
+        font-family: sans-serif;
+        font-weight: 400;
+      }
+      
+      #my-input {
+        height: 30px;
+        width: 280px;
+        font-size: 18px;
+        padding-left: 10px;
+        border: none;
+        border: 1px solid #666;
+        border-radius: 2px;
+
+      }
+    }
+  }
+}
+
+

@@ -1,0 +1,98 @@
+// without react
+
+console.clear();
+
+// People dropping of a form (Action Creator)
+const createPolicy = (name, amount) => {
+  return { // Action (a form in our analogy)
+    type: 'CREATE_POLICY',
+    payload: { name, amount }
+  };
+};
+
+const deletePolicy = () => {
+  return {
+    type: 'DELETE_POLICY',
+    payload: { name }
+  };
+};
+
+const createClaim = (name, amountOfMoneyToCollect) => {
+  return {
+    type: 'CREATE_CLAIM',
+    payload: {
+      name, amountOfMoneyToCollect
+    }
+  };
+};
+
+// Reducers (Departments!)
+const claimsHistory = (oldListOfClaims = [], action) => {
+  if (action.type === 'CREATE_CLAIM') {
+    // we care about this action (FORM!)
+    return [...oldListOfClaims, action.payload];
+  }
+  
+  // we don't care the action (form!!)
+  return oldListOfClaims;
+};
+
+const accounting = (bagOfMoney = 100, action) => {
+  if (action.type === 'CREATE_CLAIM') {
+    return bagOfMoney - action.payload.amountOfMoneyToCollect;
+  } else if (action.type === 'CREATE_POLICY') {
+    return bagOfMoney + action.payload.amount;
+  }
+  
+  return bagOfMoney;
+};
+
+const policies = (listOfPolicies = [], action) => {
+  if (action.type === 'CREATE_POLICY') {
+    return [...listOfPolicies, action.payload.name];
+  } else if (action.type === 'DELETE_POLICY') {
+    return listOfPolicies.filter(name => name !== action.payload.name);
+  }
+  
+  return listOfPolicies;
+};
+
+const { createStore, combineReducers } = Redux;
+
+const ourDepartments = combineReducers({
+  accounting, claimsHistory, policies
+});
+
+const store = createStore(ourDepartments);
+
+store.dispatch(createPolicy('Alex', 20));
+store.dispatch(createPolicy('Joye', 40));
+store.dispatch(createClaim('Alex', 60));
+console.log(store.getState());
+
+// with react (react-redux)
+
+const { Provider } from 'react-redux';
+const { createStore } from 'redux';
+
+const reducers = combineReducers({
+  reducer1: reducer1,
+  reducer2: reducer2
+})
+
+<Provider store={createStore(reducers)}>
+  <App />
+</Provider>
+
+// app.js
+
+import { connect } from 'react-redux';
+import actionCreator from './actionCreator';
+
+const mapStateToProps = (state) => {
+  return {
+    property: state.property
+  }
+}
+
+export default connect(mapStateToProps, { actionCreator })(App);
